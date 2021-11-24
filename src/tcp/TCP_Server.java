@@ -37,7 +37,8 @@ public class TCP_Server {
         DataOutputStream dout = new DataOutputStream(client.getOutputStream());
         System.out.println("Server connected to client !");
         //giai đoạn trao đổi
-     
+        //key test: thedieis
+        //plaintext test: hellooneandall
         
         String key = din.readUTF();
         String encryptedtext = din.readUTF();
@@ -53,13 +54,10 @@ public class TCP_Server {
         encryptedtext.trim();
         int i = db.update("insert into Cypherr values('"+id+"','"+key+"','"+encryptedtext+"')");
         if( i != 0)
-            System.out.println("insert thành công!");
+            System.out.println("insert success!");
         else
-            System.out.println("insert không thành công!");
+            System.out.println("insert fail!");
         String decryptedText = x.decryptMessage(encryptedtext);
-        
-        //key test: thedieis
-        //plaintext test: hellooneandall
         
         dout.writeUTF(decryptedText);
         client.close();
