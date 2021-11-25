@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.sql.*;
 import java.util.Random;
 import java.util.Scanner;
+import encode.Playfair;
 
 
 /**

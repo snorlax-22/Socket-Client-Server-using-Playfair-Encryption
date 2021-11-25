@@ -5,6 +5,9 @@
         <group>
             <file>file:/C:/Users/Snorlax/OneDrive/Desktop/Cuong/LapTrinhMang/TCP/src/tcp/TCP_Server.java</file>
             <file>file:/C:/Users/Snorlax/OneDrive/Desktop/Cuong/LapTrinhMang/TCP/src/dbconnection/dbconnection.java</file>
+            <file>file:/C:/Users/Snorlax/OneDrive/Desktop/Cuong/LapTrinhMang/TCP/src/tcp/TCP_Client.java</file>
+            <file>file:/C:/Users/Snorlax/OneDrive/Desktop/Cuong/LapTrinhMang/TCP/src/dbconnection/dbaccess.java</file>
+            <file>file:/C:/Users/Snorlax/OneDrive/Desktop/Cuong/LapTrinhMang/TCP/src/encode/Playfair.java</file>
         </group>
     </open-files>
 </project-private>
