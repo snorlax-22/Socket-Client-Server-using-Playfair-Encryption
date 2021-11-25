@@ -11,10 +11,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Random;
 import java.util.Scanner;
-import jdk.jfr.DataAmount;
+
 
 /**
  *
@@ -52,11 +52,31 @@ public class TCP_Server {
         int id = generator.nextInt();
         key.trim();
         encryptedtext.trim();
-        int i = db.update("insert into Cypherr values('"+id+"','"+key+"','"+encryptedtext+"')");
+        
+        // insert id + key + cypher vừa chuyển đổi vào DB
+        int i = db.update("insert into Cypher values('"+id+"','"+key+"','"+encryptedtext+"')");
         if( i != 0)
             System.out.println("insert success!");
         else
             System.out.println("insert fail!");
+        
+        // select * tất cả các thông tin từ bảng Cypher
+        String sql = "SELECT * FROM Cypher";
+        ResultSet rs = db.getAll(sql);
+         while (rs.next()) {
+        //lấy dữ liệu theo tên cột trong DB
+        int idC = rs.getInt("id");
+        String keyyC = rs.getString("keyy");
+        String cypherC = rs.getString("cypher");
+        
+        //Hiển thị dữ liệu vừa lấy từ DB
+        System.out.print("ID: " + idC);
+        System.out.print(", Key: " + keyyC.trim());
+        System.out.println(", CypherC: " + cypherC.trim());
+        }
+        
+        
+        
         String decryptedText = x.decryptMessage(encryptedtext);
         
         dout.writeUTF(decryptedText);

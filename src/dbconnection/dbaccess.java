@@ -17,6 +17,7 @@ public class dbaccess {
      */
     private Connection con;
     private Statement stm;
+    private PreparedStatement pstm;
     public dbaccess() throws SQLException{
         try{
             dbconnection dbcon  = new dbconnection();
@@ -25,6 +26,16 @@ public class dbaccess {
         }
         catch(Exception ex){
             
+        }
+    }
+    public ResultSet getAll(String select){
+        try{
+            pstm = con.prepareStatement(select);
+            ResultSet rs = pstm.executeQuery();
+            return rs;
+        }
+        catch(Exception ex){
+            return null;
         }
     }
     
