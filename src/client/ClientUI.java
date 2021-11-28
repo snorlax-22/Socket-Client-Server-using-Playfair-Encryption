@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import tcp.PlayfairCipherDecryption;
+import encode.PlayfairCipherDecryption;
 
 /**
  *
@@ -232,9 +232,9 @@ public class ClientUI extends javax.swing.JFrame {
 
     private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
         try {
-            String key = this.jTextFieldKey.getText().trim().toUpperCase();
-            String keyword = this.jTextFieldKeyWord.getText().trim().toUpperCase();
-            String plaintext = this.jTextFieldPlainText.getText().trim().toUpperCase();
+            String key = this.jTextFieldKey.getText().trim().toLowerCase();
+            String keyword = this.jTextFieldKeyWord.getText().trim().toLowerCase();
+            String plaintext = this.jTextFieldPlainText.getText().trim().toLowerCase();
             String cipher = "";
             PlayfairCipherDecryption objPlayfair = new PlayfairCipherDecryption();
             objPlayfair.setKey(key);

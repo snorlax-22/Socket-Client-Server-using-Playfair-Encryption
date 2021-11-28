@@ -138,6 +138,7 @@ public class PlayfairCipherDecryption
     // trả về một chuỗi đã được mã hóa với key hiện tại
     public String encryptMessage(String Source)
     {
+        Source = Source.length() % 2 == 1? Source += "z" : Source;
         String src_arr[] = Divid2Pairs(Source);
         String Code = new String();
         char one;

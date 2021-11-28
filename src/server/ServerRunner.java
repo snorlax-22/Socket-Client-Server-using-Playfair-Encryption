@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.Scanner;
 import encode.Playfair;
 import javax.swing.JTextArea;
-import tcp.PlayfairCipherDecryption;
+import encode.PlayfairCipherDecryption;
 
 /**
  *
@@ -49,7 +49,7 @@ public class ServerRunner extends Thread {
     @Override
     public void run() {
         super.run(); //To change body of generated methods, choose Tools | Templates.
-        while (objSocket != null && objSocket.isConnected()) {
+        while (objSocket != null && objSocket.isConnected() && !objSocket.isClosed()) {
             try {
                 String strRecive = objDataInputStream.readUTF();
                 if (strRecive != null && !strRecive.equalsIgnoreCase("")) {
@@ -82,6 +82,7 @@ public class ServerRunner extends Thread {
                 
             } catch (Exception ex) {
                 log("Lỗi " + ex.getMessage());
+                break;
             }
         }
 
