@@ -5,6 +5,14 @@
  */
 package client;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import tcp.PlayfairCipherDecryption;
+
 /**
  *
  * @author hesac
@@ -14,6 +22,10 @@ public class ClientUI extends javax.swing.JFrame {
     /**
      * Creates new form ClientUI
      */
+    private Socket objSocket;
+    private DataOutputStream objOutputStream;
+    private DataInputStream objInputStream;
+
     public ClientUI() {
         initComponents();
     }
@@ -27,19 +39,61 @@ public class ClientUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialogNotify = new javax.swing.JDialog();
+        jButtonOkay = new javax.swing.JButton();
+        jLabelMessage = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        jTextFieldKey = new javax.swing.JTextField();
+        jTextFieldPlainText = new javax.swing.JTextField();
+        jTextFieldKeyWord = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        jTextAreaContent = new javax.swing.JTextArea();
+        jButtonSend = new javax.swing.JButton();
         jButtonConnect = new javax.swing.JButton();
         jButtonDisconnect = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jLabelStatus = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+
+        jDialogNotify.setLocationRelativeTo(null);
+        jDialogNotify.setMinimumSize(new java.awt.Dimension(507, 234));
+
+        jButtonOkay.setBackground(new java.awt.Color(102, 153, 255));
+        jButtonOkay.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jButtonOkay.setText("Okay");
+        jButtonOkay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOkayActionPerformed(evt);
+            }
+        });
+
+        jLabelMessage.setBackground(new java.awt.Color(255, 204, 204));
+        jLabelMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelMessage.setOpaque(true);
+
+        javax.swing.GroupLayout jDialogNotifyLayout = new javax.swing.GroupLayout(jDialogNotify.getContentPane());
+        jDialogNotify.getContentPane().setLayout(jDialogNotifyLayout);
+        jDialogNotifyLayout.setHorizontalGroup(
+            jDialogNotifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogNotifyLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jDialogNotifyLayout.createSequentialGroup()
+                .addGap(190, 190, 190)
+                .addComponent(jButtonOkay, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(197, Short.MAX_VALUE))
+        );
+        jDialogNotifyLayout.setVerticalGroup(
+            jDialogNotifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogNotifyLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jLabelMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addComponent(jButtonOkay)
+                .addGap(33, 33, 33))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,21 +106,36 @@ public class ClientUI extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel3.setText("Bản rõ: ");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextAreaContent.setColumns(20);
+        jTextAreaContent.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaContent);
 
-        jButton1.setText("Gửi");
+        jButtonSend.setText("Gửi");
+        jButtonSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSendActionPerformed(evt);
+            }
+        });
 
         jButtonConnect.setText("Kết nối");
+        jButtonConnect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConnectActionPerformed(evt);
+            }
+        });
 
         jButtonDisconnect.setText("Ngắt kết nối");
+        jButtonDisconnect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDisconnectActionPerformed(evt);
+            }
+        });
 
-        jLabel4.setBackground(new java.awt.Color(255, 102, 102));
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Chưa kết nối với server");
-        jLabel4.setOpaque(true);
+        jLabelStatus.setBackground(new java.awt.Color(255, 102, 102));
+        jLabelStatus.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabelStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelStatus.setText("Chưa kết nối với server");
+        jLabelStatus.setOpaque(true);
 
         jLabel5.setText("Nội dung :");
 
@@ -84,19 +153,19 @@ public class ClientUI extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextFieldPlainText, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldKey, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldKeyWord, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButtonConnect)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonDisconnect)
                         .addGap(158, 158, 158)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(354, 354, 354)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButtonSend, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,21 +180,21 @@ public class ClientUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonConnect)
                     .addComponent(jButtonDisconnect)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldPlainText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldKeyWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
-                .addComponent(jButton1)
+                .addComponent(jButtonSend)
                 .addGap(20, 20, 20)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -135,6 +204,81 @@ public class ClientUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConnectActionPerformed
+        try {
+            if (objSocket == null || objSocket.isClosed()) {
+                objSocket = new Socket("127.0.0.1", 9999);
+            }
+            this.objOutputStream = new DataOutputStream(objSocket.getOutputStream());
+            this.objInputStream = new DataInputStream(objSocket.getInputStream());
+            this.jLabelStatus.setVisible(!objSocket.isConnected());
+        } catch (Exception ex) {
+            this.jLabelStatus.setVisible(true);
+        }
+    }//GEN-LAST:event_jButtonConnectActionPerformed
+
+    private void jButtonDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDisconnectActionPerformed
+        try {
+            this.objSocket.close();
+            objOutputStream.close();
+            objInputStream.close();
+
+        } catch (IOException ex) {
+            notify("lỗi ngắt kết nối " + ex.getMessage());
+        }
+        this.jLabelStatus.setVisible(true);
+    }//GEN-LAST:event_jButtonDisconnectActionPerformed
+
+    private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
+        try {
+            String key = this.jTextFieldKey.getText().trim().toUpperCase();
+            String keyword = this.jTextFieldKeyWord.getText().trim().toUpperCase();
+            String plaintext = this.jTextFieldPlainText.getText().trim().toUpperCase();
+            String cipher = "";
+            PlayfairCipherDecryption objPlayfair = new PlayfairCipherDecryption();
+            objPlayfair.setKey(key);
+
+            if ("".equals(key) || "".equals(keyword) || "".equals(plaintext)) {
+                notify("Một trong các mục không được để trống");
+                return;
+            } else {
+                String[] arrWord = plaintext.split(" ");
+                plaintext = "";
+                for (String word : arrWord) {
+                    word = word.trim();
+                    if (!word.equalsIgnoreCase("")) {
+                        cipher += objPlayfair.encryptMessage(word);
+                        cipher += " ";
+                    }
+                    plaintext += word + " ";
+                }
+                plaintext = plaintext.trim();
+            }
+
+            String sendMessage = cipher + ";" + key + ";" + keyword;
+            objOutputStream.writeUTF(sendMessage);
+            int returnInfo = objInputStream.readInt();
+            log("Chuỗi được gửi đi : " + sendMessage);
+            log("Kết quả trả về là : " + returnInfo);
+        } catch (Exception ex) {
+            notify("Lỗi nhận gửi/nhận dữ liệu " + ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonSendActionPerformed
+
+    private void notify(String m) {
+        this.jLabelMessage.setText(m);
+        this.jDialogNotify.setVisible(true);
+    }
+
+    private void log(String m){
+        this.jTextAreaContent.append(m + "\n");
+        this.jTextAreaContent.setCaretPosition(jTextAreaContent.getDocument().getLength());
+    }
+    
+    private void jButtonOkayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOkayActionPerformed
+        this.jDialogNotify.setVisible(false);
+    }//GEN-LAST:event_jButtonOkayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -172,18 +316,21 @@ public class ClientUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonConnect;
     private javax.swing.JButton jButtonDisconnect;
+    private javax.swing.JButton jButtonOkay;
+    private javax.swing.JButton jButtonSend;
+    private javax.swing.JDialog jDialogNotify;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabelMessage;
+    private javax.swing.JLabel jLabelStatus;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextArea jTextAreaContent;
+    private javax.swing.JTextField jTextFieldKey;
+    private javax.swing.JTextField jTextFieldKeyWord;
+    private javax.swing.JTextField jTextFieldPlainText;
     // End of variables declaration//GEN-END:variables
 }

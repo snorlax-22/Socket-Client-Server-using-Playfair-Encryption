@@ -49,40 +49,51 @@ public class ServerRunner extends Thread {
     @Override
     public void run() {
         super.run(); //To change body of generated methods, choose Tools | Templates.
-        try {
-            String strRecive = objDataInputStream.readUTF();
-            String[] arrRecive = strRecive.split(";");
-            String strPlainText = "";
-            String keyword = "";
-            String strCipher = "";
-            String key = "";
+        while (objSocket != null && objSocket.isConnected()) {
+            try {
+                String strRecive = objDataInputStream.readUTF();
+                if (strRecive != null && !strRecive.equalsIgnoreCase("")) {
+                    log("Đã nhận dữ liệu : " + strRecive);
+                    String[] arrRecive = strRecive.split(";");
+                    String strPlainText = "";
+                    String keyword = "";
+                    String strCipher = "";
+                    String key = "";
 
-            if (arrRecive.length == 3) {//Kiểm dữ liệu có chứa đủ cipher , key , keyword
-                strCipher = arrRecive[0]; //0-Cipher
-                key = arrRecive[1];//1-key
-                keyword = arrRecive[2];//2-Keyword
-                objPlayfair.setKey(key);
-                String[] arrCipher = strCipher.split(" "); //tách cách từ của câu thành các chuỗi
+                    if (arrRecive.length == 3) {//Kiểm dữ liệu có chứa đủ cipher , key , keyword
+                        strCipher = arrRecive[0]; //0-Cipher
+                        key = arrRecive[1];//1-key
+                        keyword = arrRecive[2];//2-Keyword
+                        objPlayfair.setKey(key);
+                        String[] arrCipher = strCipher.split(" "); //tách cách từ của câu thành các chuỗi
 
-                for (String strCipherWord : arrCipher) {
-                    if (!strCipherWord.equalsIgnoreCase("")) {
-                        strCipherWord = strCipherWord.trim();
-                        strPlainText += objPlayfair.decryptMessage(strCipherWord);
-                        strPlainText += " ";
+                        for (String strCipherWord : arrCipher) {
+                            if (!strCipherWord.equalsIgnoreCase("")) {
+                                strCipherWord = strCipherWord.trim();
+                                strPlainText += objPlayfair.decryptMessage(strCipherWord);
+                                strPlainText += " ";
+                            }
+                        }
+                    } else {
+                        log("Lỗi nhận dữ liệu không đầy đủ: " + strRecive);
                     }
+                    objDataOutputStream.writeInt(strPlainText.indexOf(keyword));
                 }
-            } else {
-                log("Lỗi nhận dữ liệu không đầy đủ: " + strRecive);
+                
+            } catch (Exception ex) {
+                log("Lỗi " + ex.getMessage());
             }
+        }
 
-            objDataOutputStream.writeInt(strPlainText.indexOf(keyword));
+        try {
             objDataInputStream.close();
             objDataOutputStream.close();
             log(this.objSocket.getInetAddress().toString() + " ngắt kết nối!");
             objSocket.close();
         } catch (Exception ex) {
-            log("Lỗi " + ex.getMessage());
+            log("Lỗi ngắt kết nối:  " + ex.getMessage());
         }
+
     }
 
     @Override

@@ -20,7 +20,7 @@ public class ServerUI extends javax.swing.JFrame {
     }
 
     private void initServer() {
-        this.objServer = new Server();
+        //this.objServer = new Server();
         ServerRunner.objJTextArea = this.jTextAreaLogging;
     }
 
@@ -119,7 +119,7 @@ public class ServerUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
-        if (objServer != null || !objServer.isBolRunning()) {
+        if (objServer == null || !objServer.isBolRunning()) {
             objServer = new Server();
             objServer.start();
             if (objServer.isBolIsConnected() && objServer.isBolRunning()) {
