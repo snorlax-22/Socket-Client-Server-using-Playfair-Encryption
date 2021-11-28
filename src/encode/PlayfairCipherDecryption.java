@@ -1,4 +1,4 @@
-package tcp;
+package encode;
 
 import java.io.*;
 import java.util.Scanner;
@@ -10,7 +10,20 @@ public class PlayfairCipherDecryption
     private String KeyWord        = new String();
     private String Key            = new String();
     private char   matrix_arr[][] = new char[5][5];
- 
+//    private String keyInput;
+//
+//    public String getKeyInput() {
+//        return keyInput;
+//    }
+//
+//    public void setKeyInput(String keyInput) {
+//        this.keyInput = keyInput;
+//    }
+
+//    public PlayfairCipherDecryption(String keyInput) {
+//        this.keyInput = keyInput;
+//    }
+    
     public void setKey(String k)
     {
         String K_adjust = new String();
@@ -93,7 +106,7 @@ public class PlayfairCipherDecryption
         {
             if (text.charAt(i + 1) == text.charAt(i))
             {
-                text = text.substring(0, i + 1) + 'x' + text.substring(i + 1);
+                text = text.substring(0, i + 1) + 'z' + text.substring(i + 1);
             }
         }
         return text;
@@ -106,7 +119,7 @@ public class PlayfairCipherDecryption
         if (size % 2 != 0)
         {
             size++;
-            Original = Original + 'x';
+            Original = Original + 'z';
         }
         String x[] = new String[size / 2];
         int counter = 0;
@@ -138,6 +151,7 @@ public class PlayfairCipherDecryption
         return key;
     }
  
+    // trả về một chuỗi đã được mã hóa với key hiện tại
     public String encryptMessage(String Source)
     {
         String src_arr[] = Divid2Pairs(Source);
@@ -183,9 +197,11 @@ public class PlayfairCipherDecryption
             Code = Code + matrix_arr[part1[0]][part1[1]]
                     + matrix_arr[part2[0]][part2[1]];
         }
+//        System.out.println("Đây là Code: "+Code);
         return Code;
     }
  
+    // trả về một chuỗi đã được giải mã với key hiện tại
     public String decryptMessage(String Code)
     {
         String Original = new String();
@@ -236,10 +252,12 @@ public class PlayfairCipherDecryption
  
     public static void main(String[] args)
     {
-        PlayfairCipherDecryption x = new PlayfairCipherDecryption();
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter a keyword:");
         String keyword = sc.next();
+        PlayfairCipherDecryption x = new PlayfairCipherDecryption();
+        
+        
         x.setKey(keyword);
         x.KeyGen();
         System.out
