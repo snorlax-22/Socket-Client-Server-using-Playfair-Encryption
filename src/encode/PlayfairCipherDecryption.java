@@ -228,28 +228,29 @@ public class PlayfairCipherDecryption
             Original = Original + matrix_arr[part1[0]][part1[1]]
                     + matrix_arr[part2[0]][part2[1]];
         }
+        Original = Original.replaceAll("z", "");
         return Original;
     }
  
-    public static void main(String[] args)
-    {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a keyword:");
-        String keyword = sc.next();
-        PlayfairCipherDecryption x = new PlayfairCipherDecryption();
-        
-        
-        x.setKey(keyword);
-        x.KeyGen();
-        System.out.println("Enter word to encrypt: (Make sure length of message is even)");
-        String key_input = sc.next();
-        if (key_input.length() % 2 == 0) {
-            System.out.println("Encryption: " + x.encryptMessage(key_input));
-            System.out.println("Decryption: "
-                    + x.decryptMessage(x.encryptMessage(key_input)));
-        } else {
-            System.out.println("Message length should be even");
-        }
-        sc.close();
-    }
+//    public static void main(String[] args)
+//    {
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Enter a keyword:");
+//        String keyword = sc.next();
+//        PlayfairCipherDecryption x = new PlayfairCipherDecryption();
+//        
+//        
+//        x.setKey(keyword);
+//        x.KeyGen();
+//        System.out.println("Enter word to encrypt: (Make sure length of message is even)");
+//        String key_input = sc.next();
+//        if (key_input.length() % 2 == 0) {
+//            System.out.println("Encryption: " + x.encryptMessage(key_input));
+//            System.out.println("Decryption: "
+//                    + x.decryptMessage(x.encryptMessage(key_input)));
+//        } else {
+//            System.out.println("Message length should be even");
+//        }
+//        sc.close();
+//    }
 }

@@ -238,6 +238,7 @@ public class ClientUI extends javax.swing.JFrame {
             String cipher = "";
             PlayfairCipherDecryption objPlayfair = new PlayfairCipherDecryption();
             objPlayfair.setKey(key);
+            objPlayfair.KeyGen();
 
             if ("".equals(key) || "".equals(keyword) || "".equals(plaintext)) {
                 notify("Một trong các mục không được để trống");
@@ -260,7 +261,12 @@ public class ClientUI extends javax.swing.JFrame {
             objOutputStream.writeUTF(sendMessage);
             int returnInfo = objInputStream.readInt();
             log("Chuỗi được gửi đi : " + sendMessage);
-            log("Kết quả trả về là : " + returnInfo);
+            
+            if(returnInfo < 0 ){
+                log("Không tìm thấy chuỗi");
+            }else{
+                log("Vị trí chuỗi cần tìm là : " + returnInfo);
+            }
         } catch (Exception ex) {
             notify("Lỗi nhận gửi/nhận dữ liệu " + ex.getMessage());
         }

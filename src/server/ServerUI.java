@@ -5,6 +5,11 @@
  */
 package server;
 
+import dbconnection.dbaccess;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author hesac
@@ -33,6 +38,9 @@ public class ServerUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialogHistory = new javax.swing.JDialog();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaHistory = new javax.swing.JTextArea();
         jButtonStart = new javax.swing.JButton();
         jButtonStop = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -40,6 +48,28 @@ public class ServerUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextFieldServerStatus = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jButtonHistory = new javax.swing.JButton();
+
+        jTextAreaHistory.setColumns(20);
+        jTextAreaHistory.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaHistory);
+
+        javax.swing.GroupLayout jDialogHistoryLayout = new javax.swing.GroupLayout(jDialogHistory.getContentPane());
+        jDialogHistory.getContentPane().setLayout(jDialogHistoryLayout);
+        jDialogHistoryLayout.setHorizontalGroup(
+            jDialogHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogHistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jDialogHistoryLayout.setVerticalGroup(
+            jDialogHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogHistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,6 +99,14 @@ public class ServerUI extends javax.swing.JFrame {
 
         jLabel2.setText("Log :");
 
+        jButtonHistory.setText("Lịch sử");
+        jButtonHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHistoryActionPerformed(evt);
+            }
+        });
+        jButtonHistory.setVisible(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,15 +117,8 @@ public class ServerUI extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(166, 166, 166)
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextFieldServerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel2)))
+                        .addContainerGap()
+                        .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -96,6 +127,14 @@ public class ServerUI extends javax.swing.JFrame {
                 .addGap(107, 107, 107)
                 .addComponent(jButtonStop)
                 .addContainerGap(199, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(166, 166, 166)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jTextFieldServerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonHistory)
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,11 +143,12 @@ public class ServerUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonStart)
                     .addComponent(jButtonStop))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextFieldServerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
+                    .addComponent(jTextFieldServerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonHistory))
+                .addGap(5, 5, 5)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -139,6 +179,36 @@ public class ServerUI extends javax.swing.JFrame {
             this.jTextFieldServerStatus.setText("Server đã dừng");
         }
     }//GEN-LAST:event_jButtonStopActionPerformed
+
+    private void jButtonHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistoryActionPerformed
+        this.jTextAreaLogging.setText("");
+        String str = getHistory();
+        this.jTextAreaLogging.setText(str);
+        this.jDialogHistory.setVisible(true);
+        this.jDialogHistory.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jButtonHistoryActionPerformed
+
+    private String getHistory() {
+
+        try {
+            String str = "";
+            dbaccess con = new dbaccess();
+            ResultSet rs = con.getAll("SELECT * FROM Cypher");
+            while (rs.next()) {
+                str += rs.getInt("id") + " ";
+                str += "  |  ";
+                str += rs.getString("cypher") + " ";
+                str += "  |  ";
+                str += rs.getString("keyy") + " ";
+                str += "\n";
+            }
+            con.close();
+            return str;
+        } catch (SQLException | IOException ex) {
+            return "";
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -178,11 +248,15 @@ public class ServerUI extends javax.swing.JFrame {
     private Server objServer;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonHistory;
     private javax.swing.JButton jButtonStart;
     private javax.swing.JButton jButtonStop;
+    private javax.swing.JDialog jDialogHistory;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextAreaHistory;
     private javax.swing.JTextArea jTextAreaLogging;
     private javax.swing.JTextField jTextFieldServerStatus;
     // End of variables declaration//GEN-END:variables

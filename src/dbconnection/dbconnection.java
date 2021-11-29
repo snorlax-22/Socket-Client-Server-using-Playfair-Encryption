@@ -20,12 +20,12 @@ public class dbconnection {
             String URL ="jdbc:sqlserver://localhost:1433;"
                     + "Database=PlayfairEncrypted;"
                     + "user=sa;"
-                    + "password=123";
+                    + "password=12345";
             Connection con = DriverManager.getConnection(URL);
             return con;
         }
         catch(Exception e){
             return null;
         }
-    } 
+    }
 }
