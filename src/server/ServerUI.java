@@ -50,6 +50,8 @@ public class ServerUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButtonHistory = new javax.swing.JButton();
 
+        jDialogHistory.setMinimumSize(new java.awt.Dimension(545, 578));
+
         jTextAreaHistory.setColumns(20);
         jTextAreaHistory.setRows(5);
         jScrollPane2.setViewportView(jTextAreaHistory);
@@ -105,19 +107,17 @@ public class ServerUI extends javax.swing.JFrame {
                 jButtonHistoryActionPerformed(evt);
             }
         });
-        jButtonHistory.setVisible(false);
+        //jButtonHistory.setVisible(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -183,7 +183,7 @@ public class ServerUI extends javax.swing.JFrame {
     private void jButtonHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistoryActionPerformed
         this.jTextAreaLogging.setText("");
         String str = getHistory();
-        this.jTextAreaLogging.setText(str);
+        this.jTextAreaHistory.setText(str);
         this.jDialogHistory.setVisible(true);
         this.jDialogHistory.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButtonHistoryActionPerformed

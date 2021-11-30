@@ -208,7 +208,7 @@ public class ClientUI extends javax.swing.JFrame {
     private void jButtonConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConnectActionPerformed
         try {
             if (objSocket == null || objSocket.isClosed()) {
-                objSocket = new Socket("127.0.0.1", 9999);
+                objSocket = new Socket("127.0.0.1", 8888);
             }
             this.objOutputStream = new DataOutputStream(objSocket.getOutputStream());
             this.objInputStream = new DataInputStream(objSocket.getInputStream());

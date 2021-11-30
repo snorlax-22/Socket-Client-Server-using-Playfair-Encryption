@@ -81,9 +81,9 @@ public class ServerRunner extends Thread {
                         log("Lỗi nhận dữ liệu không đầy đủ: " + strRecive);
                     }
                     objDataOutputStream.writeInt(strPlainText.indexOf(keyword));
-//                    if(!insertDB(strCipher, key)){
-//                        log("Không thể thêm vào CSDL");
-//                    }
+                    if (!insertDB(strCipher, key)) {
+                        log("Không thể thêm vào CSDL");
+                    }
                 }
 
             } catch (Exception ex) {
@@ -118,10 +118,15 @@ public class ServerRunner extends Thread {
     private boolean insertDB(String cipher, String key) {
         try {
             dbaccess con = new dbaccess();
-            con.update("insert into Cypher values('" + cipher + "','" + key + "')");
+          
+            String q = "insert into Cypher values('" + cipher + "','" + key + "')";
+            con.update(q);
+//            INSERT INTO table_name (column1, column2, column3, ...)
+//            VALUES (value1, value2, value3, ...);
             con.close();
             return true;
         } catch (Exception ex) {
+            System.err.println(ex);
             return false;
         }
     }
@@ -183,5 +188,4 @@ public class ServerRunner extends Thread {
 //        client.close();
 //        server.close();
 //    }
-
 }

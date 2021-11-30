@@ -43,7 +43,7 @@ public class dbaccess implements Closeable {
             return null;
         }
     }
-
+    
     public int update(String update) {
         try {
             int i = stm.executeUpdate(update);
@@ -66,7 +66,7 @@ public class dbaccess implements Closeable {
     public void close() throws IOException {
         try {
             stm.close();
-            pstm.close();
+//            pstm.close();
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(dbaccess.class.getName()).log(Level.SEVERE, null, ex);

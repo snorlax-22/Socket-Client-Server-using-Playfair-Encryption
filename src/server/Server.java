@@ -25,7 +25,7 @@ public class Server extends Thread {
 
     public Server() {
         try {
-            objServerSocket = new ServerSocket(9999);
+            objServerSocket = new ServerSocket(8888);
             bolIsConnected = true;
             bolIsError = false;
             bolRunning = true;
